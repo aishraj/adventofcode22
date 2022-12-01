@@ -1,18 +1,8 @@
 defmodule Adventofcode22 do
-  @moduledoc """
-  Documentation for `Adventofcode22`.
-  """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Adventofcode22.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def read_input(infile) do
+    infile
+    |> File.stream!()
+    |> Stream.map(&String.trim/1)
+    |> Stream.map(&String.split(&1, "\n"))
   end
 end
