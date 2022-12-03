@@ -1,5 +1,4 @@
 defmodule Adventofcode22.DaytwoTest do
-  alias Mix.Tasks.Iex
   use ExUnit.Case
   doctest Adventofcode22
 

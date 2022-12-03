@@ -12,8 +12,33 @@ defmodule Adventofcode22.Daythree do
       |> Enum.map(fn line -> get_common_char(line) end)
       |> Enum.map(fn item -> convert_to_int(item) end)
 
-    IO.inspect(r)
     r |> Enum.sum()
+  end
+
+  def part_two(input) do
+    input
+    |> Enum.chunk_every(3)
+    |> Enum.map(fn chunk -> get_common_char_cols(chunk) end)
+    |> List.flatten()
+    |> Enum.map(fn item -> convert_to_int(item) end)
+    |> Enum.sum()
+  end
+
+  defp get_common_char_cols(lines) do
+    sets =
+      lines
+      |> Enum.map(fn line ->
+        line
+        |> String.codepoints()
+        |> MapSet.new()
+      end)
+
+    initial = Enum.at(sets, 0)
+
+    Enum.drop(sets, 1)
+    |> Enum.reduce(initial, fn line, acc ->
+      MapSet.intersection(acc, line)
+    end)
   end
 
   defp get_common_char(line) do
@@ -36,9 +61,5 @@ defmodule Adventofcode22.Daythree do
     else
       :binary.first(item) - 96
     end
-  end
-
-  def part_two(input) do
-    input
   end
 end
