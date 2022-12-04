@@ -12,6 +12,26 @@ defmodule Adventofcode22.Dayfour do
     |> Enum.count()
   end
 
+  def part_two(pairs) do
+    pairs
+    |> Enum.map(&find_any_overlap(&1))
+    |> Enum.filter(& &1)
+    |> Enum.count()
+  end
+
+  def find_any_overlap([first, second]) do
+    {first_start, first_end} = get_chunks(first)
+    {second_start, second_end} = get_chunks(second)
+    any_overlap?(first_start, first_end, second_start, second_end)
+  end
+
+  def any_overlap?(first_start, first_end, second_start, second_end) do
+    (first_start <= second_start and second_start <= first_end) or
+      (first_start <= second_end and second_end <= first_end) or
+      (second_start <= first_start and first_start <= second_end) or
+      (second_start <= first_end and first_end <= second_end)
+  end
+
   def find_overlap([first, second]) do
     {first_start, first_end} = get_chunks(first)
     {second_start, second_end} = get_chunks(second)
