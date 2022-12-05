@@ -68,7 +68,6 @@ defmodule Adventofcode22.Dayfive do
     |> Enum.join("")
   end
 
-  # TODO: This is not correct yet
   def apply_instruction(instr, grid) do
     [n, source, dest] = instr
     old_source = Map.get(grid, source)
