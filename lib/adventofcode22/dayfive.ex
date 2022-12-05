@@ -48,6 +48,15 @@ defmodule Adventofcode22.Dayfive do
     extract_tops(graph)
   end
 
+  def part_two(graph, instructions) do
+    graph =
+      Enum.reduce(instructions, graph, fn instr, grid ->
+        apply_bulk_instruction(instr, grid)
+      end)
+
+    extract_tops(graph)
+  end
+
   defp extract_tops(graph) do
     1..Enum.count(graph)
     |> Enum.reduce(:gb_trees.empty(), fn x, acc ->
@@ -67,6 +76,20 @@ defmodule Adventofcode22.Dayfive do
     # copy n items from source to dest
     new_source = old_source |> Enum.reverse() |> Enum.drop(n) |> Enum.reverse()
     items_copied = old_source |> Enum.reverse() |> Enum.take(n)
+    new_dest = old_dest ++ items_copied
+    grid = Map.put(grid, source, new_source)
+    grid = Map.put(grid, dest, new_dest)
+    grid
+  end
+
+  def apply_bulk_instruction(instr, grid) do
+    [n, source, dest] = instr
+    old_source = Map.get(grid, source)
+    old_dest = Map.get(grid, dest)
+    # copy n items from source to dest
+    new_source = old_source |> Enum.reverse() |> Enum.drop(n) |> Enum.reverse()
+    items_copied = old_source |> Enum.reverse() |> Enum.take(n) |> Enum.reverse()
+
     new_dest = old_dest ++ items_copied
     grid = Map.put(grid, source, new_source)
     grid = Map.put(grid, dest, new_dest)

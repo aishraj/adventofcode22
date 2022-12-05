@@ -25,7 +25,7 @@ defmodule Adventofcode22.DayfiveTest do
     assert instr == [[1, 2, 1], [3, 1, 3], [2, 2, 1], [1, 1, 2]]
   end
 
-  test "applies instructio correctly" do
+  test "applies instruction correctly" do
     {grid, instr} = Adventofcode22.Dayfive.read_input("input/5_easy.txt")
     result = Adventofcode22.Dayfive.apply_instruction([1, 2, 1], grid)
     assert result == %{1 => ["Z", "N", "D"], 2 => ["M", "C"], 3 => ["P"]}
@@ -35,5 +35,18 @@ defmodule Adventofcode22.DayfiveTest do
     input = File.read!("input/5_stack_easy.txt")
     result = Adventofcode22.Dayfive.parse_stack(input)
     assert result == %{1 => ["Z", "N"], 2 => ["M", "C", "D"], 3 => ["P"]}
+  end
+
+  test "applies the bulk instructions" do
+    input = File.read!("input/5_2_stack.txt")
+    grid = Adventofcode22.Dayfive.parse_stack(input)
+    result = Adventofcode22.Dayfive.apply_bulk_instruction([3, 1, 3], grid)
+    assert result == %{1 => [], 2 => ["M", "C"], 3 => ["P", "Z", "N", "D"]}
+  end
+
+  test "completes part 2" do
+    {stack, instructions} = Adventofcode22.Dayfive.read_input("input/5.txt")
+    result = Adventofcode22.Dayfive.part_two(stack, instructions)
+    assert result == "LVMRWSSPZ"
   end
 end
