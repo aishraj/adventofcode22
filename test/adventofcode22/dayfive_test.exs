@@ -16,7 +16,7 @@ defmodule Adventofcode22.DayfiveTest do
   test "completes part 1" do
     {stack, instructions} = Adventofcode22.Dayfive.read_input("input/5.txt")
     result = Adventofcode22.Dayfive.part_one(stack, instructions)
-    assert result == "CMZ"
+    assert result == "JCMHLVGMG"
   end
 
   test "reads input properly" do

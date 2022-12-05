@@ -45,8 +45,10 @@ defmodule Adventofcode22.Dayfive do
         apply_instruction(instr, grid)
       end)
 
-    # TODO: This is not working
+    extract_tops(graph)
+  end
 
+  defp extract_tops(graph) do
     1..Enum.count(graph)
     |> Enum.reduce(:gb_trees.empty(), fn x, acc ->
       val = Map.get(graph, x, [])
