@@ -45,12 +45,19 @@ defmodule Adventofcode22.Dayfive do
         apply_instruction(instr, grid)
       end)
 
+    # TODO: This is not working
+
     1..Enum.count(graph)
-    |> Enum.map(fn x -> Enum.map(graph, fn y -> Enum.at(y, x - 1) end) end)
-    |> List.flatten()
+    |> Enum.reduce(:gb_trees.empty(), fn x, acc ->
+      val = Map.get(graph, x, [])
+      :gb_trees.insert(x, val, acc)
+    end)
+    |> :gb_trees.to_list()
+    |> Enum.map(fn {_pos, stack} -> List.last(stack) end)
     |> Enum.join("")
   end
 
+  # TODO: This is not correct yet
   def apply_instruction(instr, grid) do
     [n, source, dest] = instr
     old_source = Map.get(grid, source)
@@ -59,8 +66,8 @@ defmodule Adventofcode22.Dayfive do
     new_source = old_source |> Enum.reverse() |> Enum.drop(n) |> Enum.reverse()
     items_copied = old_source |> Enum.reverse() |> Enum.take(n)
     new_dest = old_dest ++ items_copied
-    Map.put(grid, source, new_source)
-    Map.put(grid, dest, new_dest)
+    grid = Map.put(grid, source, new_source)
+    grid = Map.put(grid, dest, new_dest)
     grid
   end
 
