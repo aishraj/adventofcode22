@@ -26,7 +26,7 @@ defmodule Adventofcode22.DayfiveTest do
   end
 
   test "applies instruction correctly" do
-    {grid, instr} = Adventofcode22.Dayfive.read_input("input/5_easy.txt")
+    {grid, _instr} = Adventofcode22.Dayfive.read_input("input/5_easy.txt")
     result = Adventofcode22.Dayfive.apply_instruction([1, 2, 1], grid)
     assert result == %{1 => ["Z", "N", "D"], 2 => ["M", "C"], 3 => ["P"]}
   end
