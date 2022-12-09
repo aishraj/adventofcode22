@@ -24,4 +24,16 @@ defmodule Adventofcode22.DayeightTest do
     res = Adventofcode22.Dayeight.part_one(data)
     assert res == 1803
   end
+
+  test "part two easy" do
+    data = Adventofcode22.Dayeight.read_file("input/8_easy.txt")
+    res = Adventofcode22.Dayeight.part_two(data)
+    assert res == 8
+  end
+
+  test "part two regular" do
+    data = Adventofcode22.Dayeight.read_file("input/8.txt")
+    res = Adventofcode22.Dayeight.part_two(data)
+    assert res == 268_912
+  end
 end

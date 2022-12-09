@@ -65,6 +65,68 @@ defmodule Adventofcode22.Dayeight do
     end)
   end
 
+  defp scenic_score(grid, row, col, row_boundary, col_boundary) do
+    left = find_next_visible(:left, grid, row, col)
+    up = find_next_visible(:up, grid, row, col)
+    right = find_next_visible(:right, grid, row, col, row_boundary, col_boundary)
+    down = find_next_visible(:down, grid, row, col, row_boundary, col_boundary)
+    score = left * right * up * down
+    score
+  end
+
+  defp find_next_visible(:left, grid, row, col) do
+    Enum.reduce_while((col - 1)..0//-1, 0, fn colnum, acc ->
+      if grid[row][colnum] < grid[row][col] do
+        {:cont, acc + 1}
+      else
+        {:halt, acc + 1}
+      end
+    end)
+  end
+
+  defp find_next_visible(:up, grid, row, col) do
+    Enum.reduce_while((row - 1)..0//-1, 0, fn rownum, acc ->
+      if grid[rownum][col] < grid[row][col] do
+        {:cont, acc + 1}
+      else
+        {:halt, acc + 1}
+      end
+    end)
+  end
+
+  defp find_next_visible(:right, grid, row, col, _row_boundary, col_boundary) do
+    Enum.reduce_while((col + 1)..col_boundary, 0, fn colnum, acc ->
+      if grid[row][colnum] < grid[row][col] do
+        {:cont, acc + 1}
+      else
+        {:halt, acc + 1}
+      end
+    end)
+  end
+
+  defp find_next_visible(:down, grid, row, col, row_boundary, _col_boundary) do
+    Enum.reduce_while((row + 1)..row_boundary, 0, fn rownum, acc ->
+      if grid[rownum][col] < grid[row][col] do
+        {:cont, acc + 1}
+      else
+        {:halt, acc + 1}
+      end
+    end)
+  end
+
+  def part_two(grid) do
+    row_boundary = Map.keys(grid) |> Enum.max()
+    col_boundary = Map.keys(grid[0]) |> Enum.max()
+
+    Enum.reduce(1..(row_boundary - 1), [], fn rownum, acc ->
+      Enum.reduce(1..(col_boundary - 1), acc, fn colnum, acc1 ->
+        scenic_score = scenic_score(grid, rownum, colnum, row_boundary, col_boundary)
+        acc1 ++ [scenic_score]
+      end)
+    end)
+    |> Enum.max()
+  end
+
   def part_one(grid) do
     row_boundary = Map.keys(grid) |> Enum.max()
     col_boundary = Map.keys(grid[0]) |> Enum.max()
@@ -75,10 +137,6 @@ defmodule Adventofcode22.Dayeight do
         right = is_visible(:right, grid, rownum, colnum)
         up = is_visible(:up, grid, rownum, colnum)
         down = is_visible(:down, grid, rownum, colnum)
-
-        IO.inspect(
-          "row: #{rownum}, col: #{colnum}, left: #{left}, right: #{right}, up: #{up}, down: #{down}"
-        )
 
         if left or right or up or down or row_boundary == rownum or col_boundary == colnum do
           MapSet.put(acc1, {rownum, colnum})
