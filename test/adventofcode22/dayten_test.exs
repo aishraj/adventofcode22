@@ -30,4 +30,14 @@ defmodule Adventofcode22.DaytenTest do
     {_, _, result} = Adventofcode22.Dayten.signal_strengths(data, [20, 60, 100, 140, 180, 220])
     assert result == [420, 1140, 1800, 2940, 2880, 3960]
   end
+
+  test "returns the final answer for easy file" do
+    data = Adventofcode22.Dayten.read_file("input/10_easy.txt")
+    assert Adventofcode22.Dayten.part_one(data) == 13140
+  end
+
+  test "returns the final answer for real file" do
+    data = Adventofcode22.Dayten.read_file("input/10.txt")
+    assert Adventofcode22.Dayten.part_one(data) == 17180
+  end
 end

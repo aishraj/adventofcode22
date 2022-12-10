@@ -1,4 +1,9 @@
 defmodule Adventofcode22.Dayten do
+  def part_one(data) do
+    {_, _, res} = Adventofcode22.Dayten.signal_strengths(data, [20, 60, 100, 140, 180, 220])
+    Enum.sum(res)
+  end
+
   def parse_line(line) do
     [instruction | cycle] = String.split(line, " ")
 
@@ -30,18 +35,18 @@ defmodule Adventofcode22.Dayten do
           1..total_cycles_for_instruction,
           {x, current_cycle, strengths},
           fn current_instruction_cycle_count, {x, current_cycle, strengths} ->
-            x =
-              if current_instruction_cycle_count == total_cycles_for_instruction do
-                apply_instruction(instruction, x)
-              else
-                x
-              end
-
             strengths =
               if Enum.member?(watch_total_cycles, current_cycle) do
                 strengths ++ [x * current_cycle]
               else
                 strengths
+              end
+
+            x =
+              if current_instruction_cycle_count == total_cycles_for_instruction do
+                apply_instruction(instruction, x)
+              else
+                x
               end
 
             {x, current_cycle + 1, strengths}
