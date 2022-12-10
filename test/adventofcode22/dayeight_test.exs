@@ -19,6 +19,7 @@ defmodule Adventofcode22.DayeightTest do
     assert res == 21
   end
 
+  @tag :skip
   test "part one regular" do
     data = Adventofcode22.Dayeight.read_file("input/8.txt")
     res = Adventofcode22.Dayeight.part_one(data)
@@ -31,6 +32,7 @@ defmodule Adventofcode22.DayeightTest do
     assert res == 8
   end
 
+  @tag :skip
   test "part two regular" do
     data = Adventofcode22.Dayeight.read_file("input/8.txt")
     res = Adventofcode22.Dayeight.part_two(data)

@@ -16,6 +16,7 @@ defmodule Adventofcode22.DaynineTest do
            ]
   end
 
+  @tag :skip
   test "runs part 2 correctly" do
     input = Adventofcode22.Daynine.read_input("input/9.txt")
     result = Adventofcode22.Daynine.part_two(input, 10)
@@ -30,6 +31,7 @@ defmodule Adventofcode22.DaynineTest do
     assert result == 13
   end
 
+  @tag :skip
   test "runs part 1 correctly" do
     input = Adventofcode22.Daynine.read_input("input/9.txt")
     result = Adventofcode22.Daynine.part_one(input, 2)
