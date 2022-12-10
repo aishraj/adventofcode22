@@ -16,6 +16,13 @@ defmodule Adventofcode22.DaynineTest do
            ]
   end
 
+  test "runs part 2 correctly" do
+    input = Adventofcode22.Daynine.read_input("input/9.txt")
+    result = Adventofcode22.Daynine.part_two(input, 10)
+
+    assert result == 2541
+  end
+
   test "runs part 1 easy correctly" do
     input = Adventofcode22.Daynine.read_input("input/9_easy.txt")
     result = Adventofcode22.Daynine.part_one(input, 2)
