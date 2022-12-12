@@ -20,20 +20,23 @@ defmodule Adventofcode22.Dayeleven do
   end
 
   def part_two(data) do
-    # TODO: I need to think about this one a bit more
-    # I think I need to do some sort of trick here
-    data
-    |> Enum.map(fn chunk ->
-      chunk
-      |> String.split("\n")
-      |> process_chunk()
-    end)
-    |> Enum.map(&convert_to_monkey/1)
-    |> Enum.with_index()
-    |> Enum.reduce(%{}, fn {monkey, index}, acc ->
-      Map.put(acc, index, monkey)
-    end)
-    |> simulate(10000, fn x -> x end)
+    monkeys =
+      data
+      |> Enum.map(fn chunk ->
+        chunk
+        |> String.split("\n")
+        |> process_chunk()
+      end)
+      |> Enum.map(&convert_to_monkey/1)
+      |> Enum.with_index()
+      |> Enum.reduce(%{}, fn {monkey, index}, acc ->
+        Map.put(acc, index, monkey)
+      end)
+
+    lcm = monkeys |> Enum.map(fn {_, monkey} -> monkey.test end) |> Enum.product()
+
+    monkeys
+    |> simulate(10000, &rem(&1, lcm))
     |> Enum.map(fn {_, monkey} -> monkey.turn_count end)
     |> Enum.sort()
     |> Enum.reverse()
@@ -89,7 +92,7 @@ defmodule Adventofcode22.Dayeleven do
         worry = current_monkey.operation.(item) |> adjust_fn.()
 
         next_monkey_pos =
-          if current_monkey.test.(worry) do
+          if rem(worry, current_monkey.test) == 0 do
             current_monkey.true_nxt
           else
             current_monkey.false_nxt
@@ -141,8 +144,7 @@ defmodule Adventofcode22.Dayeleven do
   end
 
   def process_line("Test: divisible by " <> divisor) do
-    divisor = String.to_integer(divisor)
-    fn value -> rem(value, divisor) == 0 end
+    String.to_integer(divisor)
   end
 
   def process_line("If true: throw to monkey " <> monkey) do
