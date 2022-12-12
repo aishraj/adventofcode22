@@ -19,6 +19,28 @@ defmodule Adventofcode22.Dayeleven do
     |> Enum.product()
   end
 
+  def part_two(data) do
+    # TODO: I need to think about this one a bit more
+    # I think I need to do some sort of trick here
+    data
+    |> Enum.map(fn chunk ->
+      chunk
+      |> String.split("\n")
+      |> process_chunk()
+    end)
+    |> Enum.map(&convert_to_monkey/1)
+    |> Enum.with_index()
+    |> Enum.reduce(%{}, fn {monkey, index}, acc ->
+      Map.put(acc, index, monkey)
+    end)
+    |> simulate(10000, fn x -> x end)
+    |> Enum.map(fn {_, monkey} -> monkey.turn_count end)
+    |> Enum.sort()
+    |> Enum.reverse()
+    |> Enum.take(2)
+    |> Enum.product()
+  end
+
   def process_chunk(chunk) do
     chunk
     |> Enum.drop(1)
