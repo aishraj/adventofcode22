@@ -6,6 +6,16 @@ defmodule Adventofcode22.DaythirteenTest do
     assert Adventofcode22.Daythirteen.part_one(input) == 13
   end
 
+  test "part 2 easy" do
+    input = File.read!("input/13_easy.txt") |> String.split("\n\n", trim: true)
+    assert Adventofcode22.Daythirteen.part_two(input) == 140
+  end
+
+  test "part 2" do
+    input = File.read!("input/13.txt") |> String.split("\n\n", trim: true)
+    assert Adventofcode22.Daythirteen.part_two(input) == 21423
+  end
+
   test "part 1 real" do
     input = File.read!("input/13.txt") |> String.split("\n\n", trim: true)
     assert Adventofcode22.Daythirteen.part_one(input) == 6046
