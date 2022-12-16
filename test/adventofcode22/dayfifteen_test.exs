@@ -13,6 +13,13 @@ defmodule Adventofcode22.DayfifteenTest do
     assert result == 26
   end
 
+  test "for easy input 2" do
+    raw_data = File.read!("input/15_easy.txt")
+    parsed_input = Adventofcode22.Dayfifteen.parse_input(raw_data)
+    result = Adventofcode22.Dayfifteen.part_two(parsed_input, 20)
+    assert result == 56_000_011
+  end
+
   @tag :skip
   test "for real input" do
     raw_data = File.read!("input/15.txt")
