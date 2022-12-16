@@ -28,12 +28,22 @@ defmodule Adventofcode22.Dayfifteen do
   end
 
   def part_one(input) do
-    distance = Enum.map(input, fn [sensor, beacon] -> manhattan_distance(sensor, beacon) end)
+    distance = Stream.map(input, fn [sensor, beacon] -> manhattan_distance(sensor, beacon) end)
 
-    Stream.zip(input, distance)
-    |> Stream.map(fn {point, distance} ->
-      points_in_manhattan_distance(point, distance) ++ [elem(point, 1)]
-    end)
-    |> Stream.flat_map(fn )
+    min_x =
+      Stream.zip(input, distance)
+      |> Stream.map(fn {[{sensorx, _sensory}, {_beaconx, _beacony}], distance} ->
+        sensorx - distance
+      end)
+      |> Enum.min()
+
+    max_x =
+      Stream.zip(input, distance)
+      |> Stream.map(fn {[{sensorx, _sensory}, {_beaconx, _beacony}], distance} ->
+        sensorx + distance
+      end)
+      |> Enum.max()
+
+    {min_x, max_x}
   end
 end
