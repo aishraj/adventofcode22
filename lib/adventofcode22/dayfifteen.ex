@@ -1,11 +1,12 @@
 defmodule Adventofcode22.Dayfifteen do
   def parse_line(line) do
-    line
-    |> String.split(~r/\D+/, trim: true)
+    Regex.scan(~r/-?\d+/, line)
+    |> List.flatten()
     |> Stream.map(&String.to_integer/1)
     |> Stream.chunk_every(2)
     |> Enum.map(fn [x, y] -> {x, y} end)
     |> Enum.chunk_every(2)
+    |> List.first()
   end
 
   def parse_input(input) do
@@ -28,12 +29,35 @@ defmodule Adventofcode22.Dayfifteen do
   end
 
   def part_one(input) do
-    distance = Enum.map(input, fn [sensor, beacon] -> manhattan_distance(sensor, beacon) end)
+    min_x =
+      input
+      |> Enum.map(fn [{x1, _}, {x2, _}] -> min(x1, x2) end)
+      |> Enum.min()
 
-    Stream.zip(input, distance)
-    |> Stream.map(fn {point, distance} ->
-      points_in_manhattan_distance(point, distance) ++ [elem(point, 1)]
+    max_x =
+      input
+      |> Enum.map(fn [{x1, _}, {x2, _}] -> max(x1, x2) end)
+      |> Enum.max()
+
+    r =
+      input
+      |> Enum.map(fn [sensor, beacon] ->
+        distance = manhattan_distance(sensor, beacon)
+        points_in_manhattan_distance(sensor, distance) ++ [sensor]
+      end)
+      |> List.flatten()
+      |> MapSet.new()
+
+    tenth_row = MapSet.filter(r, fn {_, y} -> y == 10 end)
+
+    IO.inspect(tenth_row, label: "tenth_row")
+
+    Enum.reduce(min_x..max_x, [], fn x, acc ->
+      case MapSet.member?(r, {x, 10}) do
+        true -> acc
+        false -> [x | acc]
+      end
     end)
-    |> Stream.flat_map(fn )
+    |> Enum.count()
   end
 end
