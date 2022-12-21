@@ -15,7 +15,7 @@ defmodule Adventofcode22.Daytwentyone do
  end
 
  def get_dependencies([value]) do
-   value
+  String.to_integer(value)
  end
 
  def get_dependencies([leftchild, operator, rightchild]) do
