@@ -37,4 +37,18 @@ defmodule Adventofcode22.DaytwentyoneTest do
     }
     assert expected == actual
   end
+
+  test "works for the example" do
+    data = File.read!("input/21_easy.txt")
+    actual = Adventofcode22.Daytwentyone.part_one(data)
+    expected = 152
+    assert expected == actual
+  end
+
+  test "works for the real" do
+    data = File.read!("input/21.txt")
+    actual = Adventofcode22.Daytwentyone.part_one(data)
+    expected = 152
+    assert expected == actual
+  end
 end
