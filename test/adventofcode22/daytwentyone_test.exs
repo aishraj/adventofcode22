@@ -18,6 +18,7 @@ defmodule Adventofcode22.DaytwentyoneTest do
   test "parses the entire input correctly" do
     data = File.read!("input/21_easy.txt")
     actual = Adventofcode22.Daytwentyone.parse_input(data)
+
     expected = %{
       "cczh" => {"sllz", :+, "lgvd"},
       "dbpl" => 5,
@@ -35,6 +36,7 @@ defmodule Adventofcode22.DaytwentyoneTest do
       "sllz" => 4,
       "zczc" => 2
     }
+
     # expression is
     assert expected == actual
   end
@@ -50,7 +52,7 @@ defmodule Adventofcode22.DaytwentyoneTest do
   test "works for the real" do
     data = File.read!("input/21.txt")
     actual = Adventofcode22.Daytwentyone.part_one(data)
-    expected = 87457751482938
+    expected = 87_457_751_482_938
     assert expected == actual
   end
 
@@ -59,5 +61,16 @@ defmodule Adventofcode22.DaytwentyoneTest do
     map = Adventofcode22.Daytwentyone.parse_input(data)
     assert Adventofcode22.Daytwentyone.contains_humn("pppw", map) == true
     assert Adventofcode22.Daytwentyone.contains_humn("sjmn", map) == false
+  end
+
+  test "returns the correct value for easy input" do
+    data = File.read!("input/21_easy.txt")
+    assert Adventofcode22.Daytwentyone.part_two(data) == 301
+  end
+
+  @tag :skip
+  test "returns the correct value for regular input" do
+    data = File.read!("input/21.txt")
+    assert Adventofcode22.Daytwentyone.part_two(data) == 3_221_245_824_363
   end
 end
