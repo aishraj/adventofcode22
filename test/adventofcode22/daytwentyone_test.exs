@@ -35,6 +35,7 @@ defmodule Adventofcode22.DaytwentyoneTest do
       "sllz" => 4,
       "zczc" => 2
     }
+    # expression is
     assert expected == actual
   end
 
@@ -45,10 +46,18 @@ defmodule Adventofcode22.DaytwentyoneTest do
     assert expected == actual
   end
 
+  @tag :skip
   test "works for the real" do
     data = File.read!("input/21.txt")
     actual = Adventofcode22.Daytwentyone.part_one(data)
-    expected = 152
+    expected = 87457751482938
     assert expected == actual
+  end
+
+  test "returns if the part contains humn" do
+    data = File.read!("input/21_easy.txt")
+    map = Adventofcode22.Daytwentyone.parse_input(data)
+    assert Adventofcode22.Daytwentyone.contains_humn("pppw", map) == true
+    assert Adventofcode22.Daytwentyone.contains_humn("sjmn", map) == false
   end
 end

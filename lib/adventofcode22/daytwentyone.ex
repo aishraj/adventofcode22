@@ -9,6 +9,33 @@ defmodule Adventofcode22.Daytwentyone do
   dfs("root", map)
  end
 
+ def part_two(raw_input) do
+   map = parse_input(raw_input)
+   {root_left, _, root_right} = map["root"]
+   # this is a two step process
+   # first we try to narrow down which of the left or right nodes
+   # contain "humn"
+   # and then we compute the value of the other node
+   target = if contains_humn(root_left, map) do
+    dfs(root_right, map)
+   else
+    dfs(root_left, map)
+   end
+
+ end
+
+ def contains_humn("humn", _map), do: true
+ def contains_humn(root, map) do
+  case map[root] do
+    value when is_integer(value) -> false
+    {left, _op, right} ->
+      leftres = contains_humn(left, map)
+      rightres = contains_humn(right, map)
+      leftres or rightres
+  end
+ end
+
+
  def parse_line(line) do
   [monkey, depdencies] = line |> String.split(":", trim: true)
   depdencies = depdencies |> String.split(" ", trim: true) |> get_dependencies()
